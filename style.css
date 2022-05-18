@@ -1,0 +1,410 @@
+/* ********** Custom Properties ********** */
+:root {
+  --first-color: #d90062;
+  --first-alpha-color: rgba(217, 0, 98, 0.75);
+  --second-color: #14192d;
+  --second-alpha-color: rgba(20, 25, 45, 0.75);
+  --third-color: #501464;
+  --third-alpha-color: rgba(80, 20, 100, 0.75);
+  --white-color: #fff;
+  --gray-light-color: #f3f3f3;
+  --gray-color: #ccc;
+  --gray-dark-color: #666;
+  --black-color: #000;
+  --link-color: #509ee3;
+  --title-color: #333;
+  --text-color: #222;
+  --white-alpha-color: rgba(255, 255, 255, 0.5);
+  --black-alpha-color: rgba(0, 0, 0, 0.5);
+  --font: "Raleway", sans-serif;
+  --max-width: 1200px;
+  --header-height: 4rem;}
+
+/* ********** Reset ********** */
+html {
+  box-sizing: border-box;
+  font-family: var(--font);
+  font-size: 16px;
+  scroll-behavior: smooth;}
+
+*,*::after,*::before {box-sizing: inherit;}
+body { margin: 0; 
+ /*al desborar en X que oculte y borre el scroll horizontal aunque corte la imagen*/ 
+  overflow-x: hidden; 
+  color: var(--text-color);}
+  /******************* ORDEN ALFABETICO A PARTIR DE AQUI **************/
+a {color: var(--link-color); transition: all 0.5s ease-out;}
+a:hover {opacity: 0.75;} /*bajo la opacidad*/
+  /* ** borrar margenes de los h y tamaños en 'rem' **** */
+h1 { margin: 0; font-size: 2rem;}
+h2 { margin: 0; font-size: 1.5rem;}
+h3 { margin: 0; font-size: 1.25rem;}
+h4 { margin: 0; font-size: 1rem;}
+h5 { margin: 0; font-size: 0.85rem;}
+h6 { margin: 0; font-size: 0.7rem;}
+img { max-width: 100%; height: auto;} /*Imagen responsive*/
+p { line-height: 1.6;} /*Iterlineado*/
+
+/* ********** Components ********** */
+
+/* ********** Carousel ********** */
+@keyframes carousel-slide { /*la animacion*/
+  /*si hubera 5 fotos,serian 5 lineas: 0,20,40,60,80*/
+  0% {transform: translateX(0%);}
+  25% {transform: translateX(-25%);}
+  50% {transform: translateX(-50%);}
+  75% { transform: translateX(-75%);}}
+
+ .carousel {
+  margin: 1rem auto;
+  padding: 1rem 0;
+  max-width: 800px;
+  text-align: center;
+  overflow-x: hidden; /*de los li del ul, solo se ve uno. lo que se sale, no se muestra.*/
+  background-color: var(--carousel-bg-color);}
+
+.carousel .slides {
+  padding-left: 0;
+  /* 100% por cada slide. si hubiera 5 -> 500% */
+  width: 400%;
+  display: flex; /*ponemos los li del ul en una sola linea aunque se vea solo un li*/
+  list-style: none;
+  transition: transform 0.5s ease-in-out;
+  /* 3 segundo de espera antes de empezar la animacion del carrousel*/
+  /* carrusel automático durante 12 segundos, despues es manual*/
+  /*si lo hacemos siempre automático, no funciona la selección manual*/
+  animation: carousel-slide 12s ease-in-out 3s;} /*el @keyframes*/
+
+.carousel input {  display: none;} /*no se ven los radio-button, se inhabilitan*/
+.carousel label { /*creamos un radio-button con los labels*/
+  border: medium solid var(--gray-dark-color);
+  width: 0.75rem; height: 0.75rem; border-radius: 50%; /*creamos circulitos en los 'label*/
+  margin: 0 0.25rem;
+  display: inline-block; /*label son de linea, hacemos bloque y permitimos el ancho*/ 
+  cursor: pointer;} /*activamos el curso encima de los labels*/
+/*si el nº de slides fuera 5, serían 0%,-20%,-40%,-60% y -80%*/
+/*si el nº de slides fuera 3, serían 0%,-33% y -66%*/
+/*hacemos click sobre el 'label' y se activa su input=radio como si hubieramos hecho click sobre el radio*/
+/* el for del label tiene el mismo nombre que el id del input=radio. esto los relaciona*/
+#slide-1:checked ~ .slides {  transform: translateX(0%);}
+#slide-2:checked ~ .slides {  transform: translateX(-25%);} /*mueve el ul(slides) 1 imagen a izq*/
+#slide-3:checked ~ .slides {  transform: translateX(-50%);} /*mueve el ul(slides) 2 imagenes a izq*/
+#slide-4:checked ~ .slides {  transform: translateX(-75%);} /*mueve el ul(slides) 3 imagenes a izq*/
+#slide-1:checked ~ .slides-nav label#dot-1, /*cuando click sobre el label de 1 -> se pinta el fondo como seleccionado*/
+#slide-2:checked ~ .slides-nav label#dot-2,
+#slide-3:checked ~ .slides-nav label#dot-3,
+#slide-4:checked ~ .slides-nav label#dot-4 {  background-color: var(--gray-dark-color);}
+
+/*********** COMPONENTE FORMULARIO CONTACTO: Reutilizacion de cogido**********/
+/*Para moviles primero*/
+.contact-form { margin: 2rem auto; padding: 1rem; max-width: 800px;}
+.contact-form > * { padding: 0.5rem; margin: 1rem auto; display: block;  width: 100%;}
+.contact-form input,
+.contact-form stextarea {font-size: 0.85rem; font-family: var(--font);}
+.contact-form input { border: 0; padding-left: 0;  border-bottom: thin solid var(--gray-dark-color);}
+.contact-form textarea { border: thin solid var(--gray-dark-color); resize: none;} /*no resize*/
+/*atención a este selector: */
+.contact-form input[type="submit"] { margin-top: 0; cursor: pointer; transition: all 0.5s ease-out;}
+.contact-form input[type="submit"]:hover {  opacity: 0.75;} /*el boton de ENVIAR*/
+.contact-form *::placeholder {  color: var(--gray-dark-color);} /*todos los placeholders*/
+.contact-form-response { padding: 1rem; width: 400px;  text-align: center;  background-color: var(--white-color);}
+.contact-form-response svg { margin-top: 2rem; width: 4rem; height: 4rem;  fill: var(--first-color);}
+
+/* DESKTOP para FORMULARIO CONTACTO: Reutilizacion Componentes */
+@media screen and (min-width: 1024px) {
+  .contact-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 1rem;  }  
+  .contact-form input,
+  .contact-form textarea {font-size: 1rem;  }  
+  .contact-form textarea, /*loader tambien 2 columnas y 1 fila solo para él*/
+  .contact-form-loader { grid-column: span 2;  } /**desde donde está, ocupa 2 columnas*/
+  .contact-form input[type="submit"] { margin-left: 0;  }
+  }
+/*********** FIN COMPONENTE FORMULARIO CONTACTO: Reutilizacion de cogido**********/
+.modal#gracias:target { /*clase modal e id=gracias y se usa en el URL...index.html#gracias*/
+/*en la linea url del navegador ponemos c://... index.html#gracias -> activamos el modal para darle formato*/
+/*al poner index.html#gracias va al ancla #gracias dentro de la página*/
+  opacity: 1;  pointer-events: auto;}/*activalo*/
+
+/* ********** HEROIMAGE REUTILIZABLE:movil,tablet,destop ********** */
+.hero-image {
+  background-image: var(--hero-image); /*variable local a <article>*/
+  background-repeat: no-repeat;
+  background-size: cover; /*se adapta a altura contenedor*/
+  background-position: center;
+  background-attachment: var(--hero-attachment);} /*fixed: no scroll, paralel*/
+
+.hero-image-opacity {
+  width: 100%;
+  min-height: 100vh;
+  display: flex; /*solo tiene un hijo y dos nietos*/
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: var(--hero-opacity-color);}
+  /** GENIAL -> 7.5% del ancho pantalla -> sin mediaqueries*/
+.hero-image-title {font-size: 7.5vw;
+  color: var(--hero-text-color);}
+
+/*********** COMPONENTE MENU: Reutilizacion de cogido********* */
+/*Para moviles primero*/
+.menu-btn {
+  outline: thin solid var(--first-color);
+  border: 0;
+  cursor: pointer;  /*la manita*/
+  background-color: var(--second-color);}
+.menu-btn svg {fill: var(--first-color); /*pone color rosa las lineas del menu*/}
+.menu { /*es el nav*/
+  position: fixed;
+  left: 0;
+  bottom: var(--header-height); /*arriba de la hamburguesa (movil)*/
+  width: 100%;
+  display: flex; /*para sus hijos, los <a>*/
+  flex-direction: column;
+  background-color: var(--second-color);
+  opacity: 0; /**que no se vea el menu*/
+  /*que no reacciones a eventos pq ahora no se ve el menu y esconde la manita (puntero)*/
+  pointer-events: none; 
+  transition: opacity 0.5s ease;}
+/**cuando este activo se ve y  reacciona a la manita (puntero)**/
+.menu.is-active {opacity: 1; pointer-events: auto;} 
+.menu a {
+  padding: 1rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: var(--first-color);}
+.menu a:hover { /*invertimos colores*/
+  color: var(--white-color);
+  background-color: var(--first-color);}
+
+/* DESKTOP para MENU: Reutilizacion Componentes*/
+@media screen and (min-width: 1024px) {
+  .menu-btn {display: none; } /*Oculta BOTON de Hamburguesa/Close Hamburguesa y sus eventos, claro*/
+  .menu {/*EL MENU de Abajo(movil), lo ponemos Arriba*/
+      position: static; /*static=normal. el header es sticky*/
+      width: auto;
+      flex-direction: row;
+      opacity: 1; /*siempre visible el menu*/
+      pointer-events: auto;  }
+  .menu a {    padding: 0 1rem;  }
+  .menu a:last-child {    padding-right: 0;  } /* la opcion de la derecha la ajustamos al final*/
+  .menu a:hover {    background-color: transparent;    }
+}
+/*********** FIN COMPONENTE MENU: Reutilizacion de cogido********* */
+
+/* ********** Modal ********** */
+.modal {
+  position: fixed;
+  z-index: 999; /**la ventana mas prioritaria**/
+  top: 0;  right: 0;  bottom: 0;  left: 0; /*obliga a ocupar toda la pantalla/
+  display: flex; /*controlar los hijos del modal*/
+  justify-content: center;  align-items: center;
+  background-color: var(--black-alpha-color);
+  opacity: 0;  pointer-events: none; /*modal oculto al principio*/
+  transition: all 1s;} /*transicion cuando se activa el modal*/
+.modal-content {  position: relative;/*hijo absolute respecto a este padre.*/}
+.modal-close {  position: absolute;  top: 1rem;  left: 1rem; /*respecto a modal-content*/}
+.modal-close svg { width: 3rem;  height: 3rem; fill: var(--first-color);}
+/*SELECTOR AVANZADO -> class="modal" id="trabajo-x"*/
+/*para todos los <a> de cerrar el modal haciendo click sobre X*/
+.modal[id|="trabajo"]:target {opacity: 1; pointer-events: auto;} /*id empieza por "trabajo"*/
+
+/* ********** BARRA DE PROGRESO  ********** */
+progress { width: 100%;  height: 1rem;
+  background-color: var(--gray-color);}
+progress::-webkit-progress-bar {  background-color: var(--gray-color);}
+progress::-webkit-progress-value {  background-color: var(--gray-dark-color);}
+progress::-moz-progress-bar {  background-color: var(--gray-dark-color);}
+.progress {  margin: 1rem auto;}
+.progress > p {
+  margin: 0;
+  /*flex, para separar los hijos: el <b> de la habilidad y el <b> del nº*/
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;}
+
+/***************** UTILIDADES REUTILIZABLES:movil,tablet,destop*************/
+.avatar {border-radius: 50%; width: 100px;  height: 100px;} /*un cuadrado que hacemos un circulo para la foto*/
+
+.bg-gray-light {  background-color: var(--gray-light-color);}
+.box-shadow-1 { box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.25);}
+.btn { /* <a> simula boton*/
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: inline-block; /* <a> son inline. Dar un width y heigh*/
+  width: 180px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: var(--white-color);
+  margin-left:1.5rem;
+  background-color: var(--first-color);}
+ /**esto es la cabecera**/
+.container { margin-left: auto; margin-right: auto;  max-width: var(--max-width);}
+.gray-scale { filter: grayscale(1);}
+.none {display: none;} /*un svg no se ve*/
+.section { padding: 0.5rem 1rem;} /*en la clase, no el elemento*/
+.section-title {
+  border-top: thin solid var(--first-color); /** raya roja arriba del titulo**/
+  border-bottom: thin solid var(--first-color);/** raya roja abajo del titulo**/
+  margin: 2rem auto 1rem auto; /*centrado*/
+  padding: 0.5rem 1rem ;
+  width: 250px;
+  text-align: center;
+  color: var(--title-color);
+}
+.text-first-color {color: var(--first-color);}
+.text-center { text-align: center;}
+.text-left {  text-align: left;}
+.text-right {  text-align: right;}
+
+/*** Site Styles: estilos no parametrizables solo este sitio ***/
+/************ MOVIL **************/
+.about > article {  margin-bottom: 2rem;}
+.contact-card {
+  margin: 1rem auto;
+  padding: 1rem;
+  width: 100%;
+  height: 144px; /*altura de la card de contacto*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;}
+/*el > significa 'hijo directo'*/
+.contact-card > svg { width: 2rem; height: 2rem; /*el icono*/
+  fill: var(--first-color);} /*color rojo al icono*/
+
+.contact-card > small { margin-top: -1rem;} /*el email,teléfono,dirección y redes lo sube un poco*/
+
+.footer {
+  margin-bottom: var(--header-height); /*subir el footer pq está detras del menu del Movil*/
+  padding: 0.5rem;
+  text-align: center;
+  color: var(--white-color);
+  background-color: var(--third-color);}
+
+.header {
+  position: fixed; /*pierde */
+  left: 0;  bottom: 0;
+  z-index: 999; /** delante de todo**/
+  padding: 1rem;
+  width: 100%; /**de su contenedor que es BODY*/
+  height: var(--header-height);
+  background-color: var(--second-color);}
+
+.header > .container {
+  display: flex; /*para usar las 2 propiedades de abajo*/
+  justify-content: space-between; /*separados sus hijos por espacios en medio*/
+  align-items: center; /*alineacion vertical*/
+}
+
+.logo a { color: var(--first-color); font-weight: bold; font-size: 1.4em; text-decoration: none;}
+
+/****** portfolio: movil *********/
+.portfolio-card { /*es el <a> del */
+  /*su hijo será absolute para situarls en 0,0 respecto a este pq se situa
+  en el mismo sitio pero no visible. Cuando :hover se hará visible*/
+  position: relative; 
+  width: 50%;
+  margin: 0 auto 1rem auto;
+  display: block;}
+.portfolio-rojo{color:var(--first-color)}
+.portfolio-card img { width: 100%; height: 85%;  
+  object-fit: cover;} /*mantiene el ratio y la img no se deforma*/
+.portfolio-card-info { /*texto del trabajo*/
+  /*respecto al padre y se situa en el mismo lugar sin desplazar al padre*/
+  position: absolute; top: 0;  left: 0; 
+  width: 100%; height: 85%;
+  padding: 1rem;
+  background-color: var(--first-alpha-color);
+  color: var(--white-color);
+  opacity: 0;   pointer-events: none;
+  transition: all 0.5s ease-in-out;} /*cuando se activa, se ejecuta la transición*/
+.portfolio-card:hover .portfolio-card-info {opacity: 1; pointer-events: auto;}
+.portfolio-card-info > div { padding: 1rem;width: 100%;  height: 100%;
+  border: thin solid var(--white-color); /*linea del borde de la tarjeta*/  }
+
+/****** portfolio-modal: movil *********/
+
+.portfolio-modal {
+  padding: 1rem;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white-color);}
+
+.portfolio-modal h3 {
+  border-bottom: medium solid var(--first-color);
+  margin: 1rem auto;
+  padding: 0.5rem 0;
+  color: var(--title-color);}
+
+.portfolio-details {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-auto-rows: 2rem;}
+.portfolio-details b {  color: var(--first-color);}
+
+.service-card {
+  margin: 0.25rem auto; /*centrado*/
+  padding: 0.25rem;
+  text-align: center;}
+
+.service-card h3 {  color: var(--title-color);}
+.service-card svg {  margin-bottom: 0.25rem;  
+  fill: var(--first-color);} /*cambiamos el icono svg al color rojo*/
+.social-media a {  padding: 0 0.4rem;  text-decoration: none;}
+.social-media svg {  width: 1.5rem;  height: 1.5rem;} /*iconos redes sociales*/
+
+/************  TABLET : no parametrizable - Site Styles **************/
+@media screen and (min-width: 768px) {
+  .contact-cards { /*card de contactos a 2 columnas en tablet, en Desktop seran 4*/
+    display: grid;
+    grid-template-columns: repeat(2, 48%);
+    justify-content: space-between;  }
+
+  .portfolio > .container { display: grid;  grid-template-columns: repeat(2, 50%);  }
+  .portfolio .section-title {    grid-column: span 2;  }/*titulo ocupa 2 columnas*/
+  .portfolio-modal {    max-width: 800px;    flex-direction: row;  } /*movil:columna (vertical) y desktop:fila (horizontal)*/
+  .portfolio-info {    margin-left: 1rem;    align-self: center; /*alinea vertical a él mismo*/ }
+  .services > .container { /*"container" es el padre del <h2> y <articles cards>*/
+    display: grid;         /* que ponemos en 2 columnas. En la Tablet*/
+    grid-template-columns: repeat(2, 45%); /* un <h2> y varios <article> */
+    /* no indicamos el nº de filas */
+    justify-content: space-between;
+    align-content: center;  }   
+  .services .section-title { grid-column: span 2;  }/*titulo ocupa 2 columnas*/
+}
+
+/************ DESKTOP para TEXTO: Reutilizacion Componentes **************/
+@media screen and (min-width: 1024px) {
+.-screen { width: 100%; min-height: 100vh;  }
+.text-lg-center { text-align: center;  }
+.text-lg-left {  text-align: left; }
+.text-lg-right { text-align: right;  }
+}
+/************ DESKTOP General **************/
+@media screen and (min-width: 1024px) {
+  .about { /*padre del texto, foto y habilidades*/
+    display: grid;
+    grid-template-columns: repeat(3, 30%);
+    justify-content: space-between;
+    align-content: center;  } 
+  .contact-cards {    grid-template-columns: repeat(4, 24%);  } /*1 fila y 4 columnas de card de contacto*/
+  .footer {    margin-bottom: 0;  }
+ 
+  .header { /*Toda la cabecera*/
+    position: sticky;
+    top: 0;
+    padding: 0.5rem;
+    height: calc(var(--header-height) - 0.5rem);  }  
+  .btn{  margin-left:0.7rem; }
+  .portfolio > .container {    grid-template-columns: repeat(3, 1fr);  }
+  .portfolio .section-title {    grid-column: span 3;  } /*titulo abarque 3 columnas*/
+  .services > .container {    grid-template-columns: repeat(3, 30%);  }
+  .services .section-title {    grid-column: span 3;  }/*titulo abarque 3 columnas*/
+}
