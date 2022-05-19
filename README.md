@@ -1,3 +1,3 @@
 # shop-online
 ## Proyectos
--[Landing Page for my Portfolio-CV](https://web-roberto.github.io/shop-online)
+-[Landing Page for my shop-online](https://web-roberto.github.io/shop-online)
